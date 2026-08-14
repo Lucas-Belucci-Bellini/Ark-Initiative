@@ -967,3 +967,122 @@ Seria uma **rede global de preparação contra desastres**, conectando ciência,
 E eu faria uma coisa ainda mais importante: **o ARCA seria construído para ser modular desde o primeiro dia**. Assim podemos começar com um núcleo real e ir adicionando os grandes motores — sem precisar destruir a arquitetura toda quando o projeto ficar gigantesco.
 
 Esse é o tipo de projeto em que eu realmente não tentaria fazer “uma coisa pequena primeiro” no sentido de limitar a visão. A visão pode ser planetária desde já; o desenvolvimento é que pode ser incremental.
+
+
+---
+
+# 26. Expansão global e ambientes extremos
+
+A visão do ARCA passa a incluir uma camada específica para operar em regiões onde a infraestrutura convencional deixa de existir. O sistema não deve assumir que um gerador, caminhão ou helicóptero comercial alcançará qualquer lugar. Ele deve verificar a configuração real do equipamento, o terreno, a temperatura, a poeira, a altitude-densidade, a carga, a autonomia, a manutenção, a comunicação, a equipe e a capacidade de recuperação.
+
+Para isso, o projeto ganha o **ARCA Extreme Environment & Access Engine**, responsável por classificar a viabilidade de acesso como **viável**, **viável com mitigação**, **não recomendado** ou **indeterminado**. Essa classificação impede que uma capacidade nominal de catálogo seja confundida com capacidade operacional no deserto, em alta montanha, no Ártico, na selva, em áreas alagadas, no litoral salino, em zonas urbanas colapsadas ou em regiões tomadas por fumaça e cinzas.
+
+O novo plano também cria o **ARCA Mobility & Sustainment**, que analisa corredores logísticos completos: combustível, água, peças, filtros, pneus, ferramentas, equipes de recuperação, manutenção, pontos de transbordo, rotas alternativas, comunicação offline e plano de retorno. A pergunta deixa de ser apenas “qual é a distância?” e passa a ser “a missão consegue chegar, permanecer, ser reabastecida, ser recuperada e retornar com segurança?”.
+
+## 26.1 Operações aéreas em condições extremas
+
+O **ARCA Air Operations** trata helicópteros como recursos dependentes de envelope operacional. Antes de recomendar um voo, o sistema deve validar peso, carga, temperatura, altitude-densidade, vento, poeira, visibilidade, área de pouso, obstáculos, combustível, tripulação, manutenção e plano de abortagem. A presença de uma aeronave próxima não é prova de que o voo seja seguro.
+
+O ARCA pode sugerir redução de carga, mudança de horário, preparação de zona de pouso, apoio de engenharia ou uma alternativa terrestre/fluvial. Entretanto, não autoriza decolagem, não escolhe automaticamente a zona de pouso e não substitui a autoridade aeronáutica nem a tripulação qualificada.
+
+## 26.2 Coordenação militar-humanitária
+
+O **ARCA Military/HADR Coordination** permite solicitar e acompanhar ativos militares ou de defesa civil quando suas capacidades forem necessárias para busca e salvamento, engenharia, transporte pesado, hospitais de campanha, purificação de água, comunicações, evacuação médica e logística humanitária.
+
+Essa camada não transforma o ARCA em um sistema de combate. Ela deve operar sob autoridade civil competente, com finalidade humanitária declarada, divisão de tarefas, prazo de validade, trilha de auditoria, minimização de dados e revisão humana. O sistema é proibido de selecionar alvos, planejar ataques, perseguir pessoas, realizar vigilância política ou orientar uso de força.
+
+## 26.3 Rede global federada
+
+No nível mundial, o ARCA será organizado como uma federação de nós locais, nacionais, regionais e globais. Dados pessoais e informações críticas podem permanecer sob soberania local, enquanto padrões, alertas agregados, modelos científicos e pedidos de ajuda podem ser compartilhados por contratos de dados e níveis de confiança.
+
+Cada região deverá possuir um **ARCA Edge Node** com mapas recentes, contatos, alertas, rotas aprovadas e formulários offline. Quando a conexão retornar, os dados serão sincronizados com validação e registro de conflitos. Assim, uma interrupção de internet não interrompe completamente a proteção civil.
+
+## 26.4 Princípio operacional
+
+> **Se um veículo comum não consegue chegar, o ARCA não deve insistir: deve calcular qual combinação de veículo especializado, engenharia, transbordo, aeronave, embarcação, pré-posicionamento ou rota alternativa torna a missão possível.**
+
+A especificação completa desta expansão está em [`docs/ARCA_GLOBAL_EXTREME_MILITARY.md`](docs/ARCA_GLOBAL_EXTREME_MILITARY.md), incluindo perfis de ambiente, classes de capacidade terrestre, requisitos de aviação, modelo de missão, governança, níveis globais de prontidão, modelo de dados e cenário de referência no deserto.
+
+## 27. Nova organização de módulos
+
+```text
+ARCA/
+├── apps/
+│   ├── citizen/
+│   ├── command-center/
+│   ├── government/
+│   ├── academy/
+│   └── admin/
+├── services/
+│   ├── ingestion/
+│   ├── alerting/
+│   ├── identity/
+│   ├── geospatial/
+│   ├── infrastructure/
+│   ├── logistics/
+│   ├── mission-assurance/
+│   ├── humanitarian-coordination/
+│   └── orchestration/
+├── engines/
+│   ├── climate/
+│   ├── flood/
+│   ├── drought/
+│   ├── fire/
+│   ├── heat/
+│   ├── landslide/
+│   ├── coastal/
+│   ├── tsunami/
+│   ├── volcanic/
+│   ├── seismic/
+│   ├── extreme-environment-access/
+│   ├── mobility-readiness/
+│   └── air-operations/
+├── ai/
+│   ├── sentinel/
+│   ├── analyst/
+│   ├── forecaster/
+│   ├── simulator/
+│   ├── logistics/
+│   ├── safety-reviewer/
+│   ├── coordinator/
+│   └── research/
+├── simulation/
+│   ├── scenarios/
+│   ├── digital-twin/
+│   ├── catastrophe-models/
+│   └── mission-rehearsal/
+├── data/
+│   ├── schemas/
+│   ├── pipelines/
+│   ├── models/
+│   ├── datasets/
+│   └── federated-contracts/
+├── edge/
+├── infrastructure/
+│   ├── kubernetes/
+│   ├── terraform/
+│   └── observability/
+├── security/
+├── governance/
+│   ├── humanitarian-rules/
+│   ├── civil-military-coordination/
+│   └── data-sovereignty/
+├── docs/
+│   └── ARCA_GLOBAL_EXTREME_MILITARY.md
+└── research/
+```
+
+## 28. Roadmap revisado
+
+| Estágio | Evolução |
+|---|---|
+| **ARCA 0–2** | Dados, mapas, alertas, inventário, sensores e primeiros modelos de risco. |
+| **ARCA 3–4** | Simulação, digital twins, dependências de infraestrutura e cenários de pior caso. |
+| **ARCA 5** | Mission Assurance, logística, acesso em ambiente extremo e operação offline. |
+| **ARCA 6** | Rede nacional, defesa civil, edge nodes e exercícios interagências. |
+| **ARCA 7** | Integração regional e continental, com corredores transfronteiriços e ajuda mútua. |
+| **ARCA 8** | Rede global federada, padrões comuns e soberania de dados. |
+| **ARCA 9** | Coordenação militar-humanitária, engenharia, busca e salvamento e operações aéreas auditáveis. |
+| **ARCA Ω** | Planetary Resilience Infrastructure: preparação, resposta e recuperação em escala planetária. |
+
+A meta continua sendo a mesma: **não vencer a natureza, mas tornar a humanidade menos vulnerável à força da natureza**, inclusive quando o acesso exige capacidades especializadas e coordenação internacional.
