@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>O voo depende de validação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    .slide-container { width: 1280px; min-height: 720px; background: #E2E8F0; color: #0F172A; border: 1px solid #0F172A; }
+    .frame { min-height: 718px; padding: 42px 54px 0; display: flex; flex-direction: column; }
+    .topline { display: flex; justify-content: space-between; border-bottom: 1px dashed #0F172A; padding: 0 0 17px; font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.5px; }
+    .title-row { display: grid; grid-template-columns: 68% 32%; gap: 24px; align-items: end; padding: 27px 0 0; }
+    h1 { max-width: 730px; font: 700 46px/1.04 'Roboto Slab', Georgia, serif; text-transform: uppercase; letter-spacing: -1.5px; }
+    .thesis { background: #F59E0B; min-height: 72px; padding: 13px 14px 0; font: 500 14px/1.3 'Space Grotesk', sans-serif; }
+    .process { flex: 1; display: grid; grid-template-columns: 1fr 58px 1.12fr 58px 1fr; align-items: center; padding: 24px 0 0; }
+    .panel { min-height: 310px; border: 1px solid #0F172A; padding: 17px 18px 0; display: flex; flex-direction: column; }
+    .panel-code { font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 1.3px; }
+    .panel h2 { margin: 15px 0 0; font: 700 26px/1.03 'Roboto Slab', Georgia, serif; text-transform: uppercase; }
+    .panel-list { margin: 20px 0 0; display: grid; gap: 0; }
+    .row { min-height: 42px; border-top: 1px dashed #0F172A; display: flex; align-items: center; font: 400 14px/1.2 'Space Grotesk', sans-serif; }
+    .row strong { width: 84px; font: 500 10px 'IBM Plex Mono', monospace; letter-spacing: 0.8px; }
+    .arrow { text-align: center; font: 700 32px 'Space Grotesk', sans-serif; }
+    .envelope { background: #0F172A; color: #E2E8F0; }
+    .envelope h2 { color: #E2E8F0; }
+    .envelope .row { border-top-color: #E2E8F0; }
+    .envelope .badge { display: inline-block; margin: 18px 0 0; background: #F59E0B; color: #0F172A; padding: 6px 8px 0; font: 500 10px 'IBM Plex Mono', monospace; letter-spacing: 1px; }
+    .outcomes { margin: 18px 0 0; display: grid; gap: 9px; }
+    .outcome { min-height: 43px; border-top: 4px solid #0F172A; padding: 6px 0 0; display: grid; grid-template-columns: 112px 1fr; gap: 7px; font: 400 12px/1.22 'Space Grotesk', sans-serif; }
+    .outcome.amber { border-top-color: #F59E0B; }
+    .outcome strong { font: 500 10px 'IBM Plex Mono', monospace; letter-spacing: 0.8px; }
+    .footer { border-top: 1px dashed #0F172A; padding: 17px 0 0; display: grid; grid-template-columns: 225px 1fr; gap: 24px; }
+    .footer h3 { font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.4px; }
+    .footer p { max-width: 870px; font: 400 16px/1.32 'Space Grotesk', sans-serif; }
+    .note { font: 400 11px 'IBM Plex Mono', monospace; letter-spacing: 0.2px; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="frame">
+      <div class="topline"><span>09 / OPERAÇÕES AÉREAS</span><span>ENVELOPE OPERACIONAL + AUTORIDADE HUMANA</span></div>
+      <div class="title-row">
+        <h1>O voo depende de validação</h1>
+        <p class="thesis">UMA AERONAVE PRÓXIMA NÃO É UMA MISSÃO VIÁVEL. O ARCA EXIGE MARGEM OPERACIONAL, DADOS ATUAIS E PLANO DE ABORTAGEM.</p>
+      </div>
+      <div class="process">
+        <section class="panel">
+          <span class="panel-code">01 / EVIDÊNCIA DE ENTRADA</span>
+          <h2>Condições reais</h2>
+          <div class="panel-list">
+            <div class="row"><strong>AERONAVE</strong>configuração, manutenção e combustível</div>
+            <div class="row"><strong>CARGA</strong>peso, volume e centro de gravidade</div>
+            <div class="row"><strong>AMBIENTE</strong>temperatura, poeira, vento e visibilidade</div>
+            <div class="row"><strong>ZONA</strong>solo, obstáculos, inclinação e aproximação</div>
+            <div class="row"><strong>EQUIPE</strong>habilitação, descanso e comunicação</div>
+          </div>
+        </section>
+        <div class="arrow">→</div>
+        <section class="panel envelope">
+          <span class="panel-code">02 / MODELO DE MISSÃO</span>
+          <h2>Envelope<br>validado</h2>
+          <div class="panel-list">
+            <div class="row"><strong>PESO</strong>margem de potência e autonomia</div>
+            <div class="row"><strong>ALTITUDE</strong>densidade do ar e razão de subida</div>
+            <div class="row"><strong>ROTA</strong>alternativa, reserva e retorno</div>
+            <div class="row"><strong>RISCO</strong>mitigações e critérios de abortagem</div>
+          </div>
+          <span class="badge">DADOS AUSENTES ≠ APROVAÇÃO</span>
+        </section>
+        <div class="arrow">→</div>
+        <section class="panel">
+          <span class="panel-code">03 / ESTADO DE DECISÃO</span>
+          <h2>Recomendação</h2>
+          <div class="outcomes">
+            <div class="outcome"><strong>VIÁVEL</strong><span>Margens e requisitos críticos confirmados.</span></div>
+            <div class="outcome amber"><strong>COM MITIGAÇÃO</strong><span>Reduzir carga, alterar horário ou preparar a zona.</span></div>
+            <div class="outcome"><strong>NÃO RECOMENDADO</strong><span>Risco incompatível com a finalidade humanitária.</span></div>
+            <div class="outcome amber"><strong>INDETERMINADO</strong><span>Coletar evidência antes de recomendar qualquer voo.</span></div>
+          </div>
+        </section>
+      </div>
+      <div class="footer">
+        <h3>SUPERVISÃO OBRIGATÓRIA</h3>
+        <p>A decisão final permanece com a tripulação e a autoridade aeronáutica competente. O ARCA organiza evidências, incertezas, alternativas e limites; ele não autoriza decolagem nem escolhe zona de pouso de forma autônoma. <span class="note">Fonte: FAA, Effects of Density Altitude.[5]</span></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

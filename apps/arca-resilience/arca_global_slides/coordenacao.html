@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ativos militares ampliam acesso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    .slide-container { width: 1280px; min-height: 720px; background: #E2E8F0; color: #0F172A; border: 1px solid #0F172A; }
+    .frame { min-height: 718px; padding: 42px 54px 0; display: flex; flex-direction: column; }
+    .topline { border-bottom: 1px dashed #0F172A; padding: 0 0 17px; display: flex; justify-content: space-between; font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.5px; }
+    .title-row { display: grid; grid-template-columns: 66% 34%; gap: 28px; align-items: end; padding: 27px 0 0; }
+    h1 { font: 700 45px/1.04 'Roboto Slab', Georgia, serif; text-transform: uppercase; letter-spacing: -1.5px; max-width: 720px; }
+    .thesis { background: #F59E0B; min-height: 75px; padding: 13px 15px 0; font: 500 14px/1.32 'Space Grotesk', sans-serif; }
+    .flow { flex: 1; display: grid; grid-template-columns: 1fr 42px 1fr 42px 1fr 42px 1fr; align-items: center; padding: 20px 0 0; }
+    .step { min-height: 190px; border: 1px solid #0F172A; padding: 18px 17px 0; display: flex; flex-direction: column; justify-content: space-between; }
+    .step.primary { background: #0F172A; color: #E2E8F0; }
+    .step.primary .badge { background: #F59E0B; color: #0F172A; }
+    .badge { width: 50px; min-height: 27px; background: #F59E0B; display: flex; align-items: center; justify-content: center; font: 500 11px 'IBM Plex Mono', monospace; }
+    .step h2 { max-width: 175px; font: 700 22px/1.04 'Roboto Slab', Georgia, serif; text-transform: uppercase; }
+    .step p { max-width: 195px; font: 400 13px/1.28 'Space Grotesk', sans-serif; }
+    .arrow { text-align: center; font: 700 29px 'Space Grotesk', sans-serif; }
+    .boundaries { border-top: 1px dashed #0F172A; padding: 17px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .boundary { display: grid; grid-template-columns: 155px 1fr; gap: 16px; border-top: 5px solid #0F172A; padding: 10px 0 0; }
+    .boundary.warn { border-top-color: #F59E0B; }
+    .boundary h3 { font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.25px; }
+    .boundary p { font: 400 14px/1.28 'Space Grotesk', sans-serif; }
+    .source { margin: 13px 0 0; font: 400 11px 'IBM Plex Mono', monospace; letter-spacing: 0.2px; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="frame">
+      <div class="topline"><span>08 / COORDENAÇÃO HUMANITÁRIA</span><span>AUTORIDADE CIVIL + SUPERVISÃO HUMANA</span></div>
+      <div class="title-row">
+        <h1>Ativos militares ampliam acesso</h1>
+        <p class="thesis">A CAPACIDADE ESPECIALIZADA COMPLEMENTA A PROTEÇÃO CIVIL. ELA NÃO SUBSTITUI A AUTORIDADE, A FINALIDADE HUMANITÁRIA OU A RESPONSABILIDADE HUMANA.</p>
+      </div>
+      <div class="flow" aria-label="Fluxo de coordenação civil-militar">
+        <section class="step primary"><span class="badge">01</span><h2>Autoridade civil</h2><p>Define finalidade, prioridade, proteção da população e autorização da missão.</p></section>
+        <div class="arrow">→</div>
+        <section class="step"><span class="badge">02</span><h2>Coordenação humanitária</h2><p>Registra necessidade, regras de proteção, prazo, dados compartilhados e divisão de tarefas.</p></section>
+        <div class="arrow">→</div>
+        <section class="step"><span class="badge">03</span><h2>Ligação civil-militar</h2><p>Converte a necessidade em missão verificável de busca, engenharia, saúde ou logística.</p></section>
+        <div class="arrow">→</div>
+        <section class="step primary"><span class="badge">04</span><h2>Operador autorizado</h2><p>Executa dentro dos limites aprovados, com critérios de abortagem, retorno e prestação de contas.</p></section>
+      </div>
+      <div class="boundaries">
+        <section class="boundary"><h3>FINALIDADE PERMITIDA</h3><p>Busca e salvamento, engenharia, transporte, hospitais de campanha, purificação de água, telecomunicações, evacuação médica e logística humanitária.</p></section>
+        <section class="boundary warn"><h3>LIMITE OBRIGATÓRIO</h3><p>O ARCA não seleciona alvos, não planeja ataques, não persegue pessoas e não autoriza uso de força. Ele registra, recomenda e encaminha a decisão para autoridades competentes.</p></section>
+      </div>
+      <p class="source">Referência: a OCHA destaca que coordenação civil-militar eficaz preserva acesso e proteção, reduz inconsistências e torna a divisão de tarefas explícita.[4]</p>
+    </div>
+  </div>
+</body>
+</html>

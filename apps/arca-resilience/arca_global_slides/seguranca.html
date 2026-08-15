@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dados sob menor privilégio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    .slide-container { width: 1280px; min-height: 720px; background: #E2E8F0; color: #0F172A; border: 1px solid #0F172A; }
+    .frame { min-height: 718px; padding: 42px 54px 0; display: flex; flex-direction: column; }
+    .topline { border-bottom: 1px dashed #0F172A; padding: 0 0 17px; display: flex; justify-content: space-between; font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.5px; }
+    .content { flex: 1; display: grid; grid-template-columns: 39% 61%; gap: 36px; align-items: center; }
+    h1 { max-width: 430px; font: 700 48px/1.03 'Roboto Slab', Georgia, serif; text-transform: uppercase; letter-spacing: -1.6px; }
+    .lead { max-width: 410px; margin: 24px 0 0; font: 300 21px/1.36 'Space Grotesk', sans-serif; }
+    .quote { max-width: 395px; margin: 32px 0 0; background: #F59E0B; padding: 13px 15px 0; font: 500 15px/1.34 'Space Grotesk', sans-serif; }
+    .system { min-height: 405px; position: relative; display: grid; grid-template-columns: 1fr 180px 1fr; grid-template-rows: 1fr 1fr; gap: 18px 28px; align-items: center; }
+    .class { min-height: 132px; border: 1px solid #0F172A; padding: 16px 17px 0; display: flex; flex-direction: column; justify-content: space-between; }
+    .class .code { font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 1.2px; }
+    .class h2 { font: 700 21px/1.05 'Roboto Slab', Georgia, serif; text-transform: uppercase; }
+    .class p { font: 400 13px/1.22 'Space Grotesk', sans-serif; max-width: 190px; }
+    .class.restrito { background: #F59E0B; }
+    .gate { grid-row: 1 / span 2; grid-column: 2; min-height: 185px; border: 1px solid #0F172A; background: #0F172A; color: #E2E8F0; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 16px 12px 0; }
+    .gate strong { color: #F59E0B; font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 1.3px; }
+    .gate h3 { margin: 16px 0 0; font: 700 22px/1.06 'Roboto Slab', Georgia, serif; text-transform: uppercase; }
+    .gate p { margin: 14px 0 0; font: 400 12px/1.3 'Space Grotesk', sans-serif; }
+    .connector { position: absolute; width: 32px; min-height: 1px; background: #0F172A; }
+    .c1 { left: 232px; top: 94px; } .c2 { left: 232px; bottom: 94px; } .c3 { right: 232px; top: 94px; } .c4 { right: 232px; bottom: 94px; }
+    .bottom { border-top: 1px dashed #0F172A; padding: 17px 0 0; display: grid; grid-template-columns: 32% 68%; gap: 24px; }
+    .bottom-label { font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.5px; }
+    .bottom-copy { font: 400 16px/1.32 'Space Grotesk', sans-serif; }
+    .highlight { background: #F59E0B; padding: 2px 5px; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="frame">
+      <div class="topline"><span>05 / PROTEÇÃO DE DADOS</span><span>ZERO TRUST / FINALIDADE DE MISSÃO</span></div>
+      <div class="content">
+        <section>
+          <h1>Dados sob menor privilégio</h1>
+          <p class="lead">O acesso não é liberado porque alguém está na rede. Ele depende de <strong>quem</strong> solicita, <strong>qual dispositivo</strong> usa, <strong>para quê</strong> e <strong>por quanto tempo</strong>.</p>
+          <p class="quote">DADO SENSÍVEL SÓ CIRCULA QUANDO A MISSÃO, A AUTORIZAÇÃO E A PROTEÇÃO ESTÃO EXPLICITAMENTE PRESENTES.</p>
+        </section>
+        <section class="system" aria-label="Matriz de classificação e verificação de acesso">
+          <div class="class"><span class="code">P0 / ABERTO</span><h2>Público</h2><p>Alertas gerais, mapas agregados e orientações validadas.</p></div>
+          <div class="gate"><strong>VERIFICAÇÃO</strong><h3>Identidade<br>Finalidade<br>Dispositivo</h3><p>Permissão mínima, prazo limitado e revogação sincronizada.</p></div>
+          <div class="class"><span class="code">P1 / MISSÃO</span><h2>Operacional</h2><p>Rotas aprovadas, recursos e estado de resposta.</p></div>
+          <div class="class restrito"><span class="code">P2 / CONTROLADO</span><h2>Restrito</h2><p>Vulnerabilidades, planos de contingência e disponibilidade técnica.</p></div>
+          <div class="class"><span class="code">P3 / PROTEGIDO</span><h2>Sensível</h2><p>Saúde, localização individual, credenciais e dados de segurança.</p></div>
+          <span class="connector c1"></span><span class="connector c2"></span><span class="connector c3"></span><span class="connector c4"></span>
+        </section>
+      </div>
+      <div class="bottom"><span class="bottom-label">CONTROLES DO PACOTE</span><p class="bottom-copy"><span class="highlight">assinatura + confidencialidade + armazenamento cifrado + log encadeado</span> permitem validar origem, integridade e alteração. O BPSec adiciona integridade e confidencialidade à mensageria tolerante a atraso.[2]</p></div>
+    </div>
+  </div>
+</body>
+</html>

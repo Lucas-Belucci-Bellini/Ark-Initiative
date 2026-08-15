@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Offline é uma malha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    .slide-container { width: 1280px; min-height: 720px; background: #E2E8F0; color: #0F172A; border: 1px solid #0F172A; }
+    .frame { min-height: 718px; padding: 42px 54px 0; display: flex; flex-direction: column; }
+    .meta { border-bottom: 1px dashed #0F172A; padding: 0 0 17px; display: flex; justify-content: space-between; font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.5px; }
+    .main { flex: 1; display: grid; grid-template-columns: 40% 60%; gap: 34px; align-items: center; }
+    h1 { max-width: 440px; font: 700 47px/1.04 'Roboto Slab', Georgia, serif; text-transform: uppercase; letter-spacing: -1.6px; }
+    .lead { max-width: 410px; margin: 23px 0 0; font: 300 21px/1.35 'Space Grotesk', sans-serif; }
+    .highlight { max-width: 390px; margin: 27px 0 0; background: #F59E0B; padding: 12px 14px 0; font: 500 14px/1.3 'Space Grotesk', sans-serif; }
+    .network { min-height: 380px; position: relative; display: grid; grid-template-columns: 1fr 128px 1fr; grid-template-rows: 1fr 92px 1fr; align-items: center; justify-items: center; }
+    .node { width: 156px; min-height: 80px; border: 1px solid #0F172A; background: #E2E8F0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px 8px 0; position: relative; z-index: 2; }
+    .node strong { font: 700 17px/1 'Roboto Slab', Georgia, serif; text-transform: uppercase; }
+    .node span { margin: 7px 0 0; font: 500 10px 'IBM Plex Mono', monospace; letter-spacing: 1px; }
+    .node.radio { grid-column: 1; grid-row: 1; } .node.sat { grid-column: 3; grid-row: 1; } .node.mesh { grid-column: 1; grid-row: 3; } .node.carry { grid-column: 3; grid-row: 3; }
+    .core { width: 160px; min-height: 126px; grid-column: 2; grid-row: 2; background: #F59E0B; border: 1px solid #0F172A; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 3; }
+    .core strong { font: 700 18px/1.04 'Roboto Slab', Georgia, serif; text-transform: uppercase; }
+    .core span { margin: 9px 0 0; font: 500 10px 'IBM Plex Mono', monospace; letter-spacing: 0.8px; }
+    .line { position: absolute; min-height: 1px; background: #0F172A; transform-origin: left center; z-index: 1; }
+    .a { width: 225px; left: 159px; top: 96px; transform: rotate(28deg); } .b { width: 225px; left: 380px; top: 96px; transform: rotate(152deg); }
+    .c { width: 225px; left: 159px; top: 282px; transform: rotate(-28deg); } .d { width: 225px; left: 380px; top: 282px; transform: rotate(208deg); }
+    .packet { position: absolute; background: #0F172A; color: #E2E8F0; padding: 5px 7px 0; font: 500 10px 'IBM Plex Mono', monospace; letter-spacing: 0.5px; z-index: 4; }
+    .p1 { top: 132px; left: 290px; } .p2 { top: 233px; right: 184px; } .p3 { bottom: 48px; left: 275px; }
+    .footer { border-top: 1px dashed #0F172A; padding: 17px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .fact { display: grid; grid-template-columns: 35px 1fr; gap: 10px; align-items: start; }
+    .num { background: #F59E0B; min-height: 29px; display: flex; align-items: center; justify-content: center; font: 500 11px 'IBM Plex Mono', monospace; }
+    .fact strong { font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 1px; }
+    .fact p { margin: 5px 0 0; font: 400 13px/1.24 'Space Grotesk', sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="frame">
+      <div class="meta"><span>04 / COMUNICAÇÃO RESILIENTE</span><span>STORE · CARRY · FORWARD</span></div>
+      <div class="main">
+        <section>
+          <h1>Offline é<br>uma malha</h1>
+          <p class="lead">Rádio autorizado, satélite, rede local e transporte físico de dados atuam como portadores intercambiáveis de uma única fila de mensagens.</p>
+          <p class="highlight">NENHUM CANAL ISOLADO DEFINE A RESILIÊNCIA. O PACOTE ESPERA, VIAJA E SINCRONIZA QUANDO A CONEXÃO SURGE.</p>
+        </section>
+        <div class="network" aria-label="Diagrama de malha de comunicação offline">
+          <div class="line a"></div><div class="line b"></div><div class="line c"></div><div class="line d"></div>
+          <div class="node radio"><strong>Rádio</strong><span>VOZ + DADOS CURTOS</span></div>
+          <div class="node sat"><strong>Satélite</strong><span>LONGA DISTÂNCIA</span></div>
+          <div class="node mesh"><strong>Rede local</strong><span>EDGE + MESH</span></div>
+          <div class="node carry"><strong>Transporte físico</strong><span>DATA MULE</span></div>
+          <div class="core"><strong>Pacote<br>de missão</strong><span>FILA TOLERANTE A ATRASO</span></div>
+          <span class="packet p1">PRIORIDADE: ALTA</span><span class="packet p2">ACK: PENDENTE</span><span class="packet p3">EXPIRA: T+06H</span>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="fact"><span class="num">01</span><div><strong>PRIORIDADE</strong><p>Uma mensagem crítica sobe na fila sem eliminar o registro de origem.</p></div></div>
+        <div class="fact"><span class="num">02</span><div><strong>VALIDADE</strong><p>O pacote expira por regra, evitando ação com informação vencida.</p></div></div>
+        <div class="fact"><span class="num">03</span><div><strong>CONFIRMAÇÃO</strong><p>Entrega e leitura geram recibo verificável quando houver conectividade.</p></div></div>
+        <div class="fact"><span class="num">04</span><div><strong>SINCRONIZAÇÃO</strong><p>O log preserva o que foi criado, encaminhado, recebido e conciliado.</p></div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+{
+  "project_info": {
+    "title": "Projeto ARCA",
+    "created": 1786750399.721,
+    "last_updated": 1786750523.524,
+    "total_slides": 12
+  },
+  "slides": [
+    {
+      "id": "capa",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "risco_acesso",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "federacao",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "viabilidade",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "offline",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "seguranca",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "combustivel",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "manutencao",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "coordenacao",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "aereo",
+      "state": "edited",
+      "pageNum": 10
+    },
+    {
+      "id": "tecnologia",
+      "state": "edited",
+      "pageNum": 11
+    },
+    {
+      "id": "roteiro",
+      "state": "edited",
+      "pageNum": 12
+    }
+  ],
+  "outline": [
+    {
+      "id": "capa",
+      "title": "Projeto ARCA",
+      "summary": "Capa minimalista com o título e o subtítulo da expansão global, extrema e militar-humanitária.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "risco_acesso",
+      "title": "O risco climático também bloqueia o socorro",
+      "summary": "Mostra a cadeia de risco que afeta acesso, serviços essenciais e resposta.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "federacao",
+      "title": "Uma federação, não um centro único",
+      "summary": "Apresenta os nós locais, nacionais, regionais e globais do ARCA.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "viabilidade",
+      "title": "O ambiente define a viabilidade",
+      "summary": "Explica o envelope operacional e a classificação de ativos para ambientes extremos.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "offline",
+      "title": "Offline é uma malha",
+      "summary": "Resume a mensageria tolerante a atraso e múltiplos portadores de comunicação.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "seguranca",
+      "title": "Dados sob menor privilégio",
+      "summary": "Explica classificação de dados, identidade, assinatura e confidencialidade.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "combustivel",
+      "title": "Deserto exige sustentação em camadas",
+      "summary": "Explica estoque de combustível, qualidade, telemetria e reservas de retorno.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "manutencao",
+      "title": "Manutenção avança junto com a missão",
+      "summary": "Apresenta os quatro níveis de manutenção e a capacidade de recuperação.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "coordenacao",
+      "title": "Ativos militares ampliam acesso",
+      "summary": "Delimita a coordenação civil-militar e as proibições de uso ofensivo.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "aereo",
+      "title": "O voo depende de validação",
+      "summary": "Mostra que operações aéreas dependem de peso, ambiente, tripulação e zona de pouso.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "tecnologia",
+      "title": "Interface leve; núcleo Rust",
+      "summary": "Justifica o site estático multiplataforma e o futuro uso de Rust em edge e WebAssembly.",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "roteiro",
+      "title": "Roteiro de execução",
+      "summary": "Fecha com fases de piloto, validação, escala e maturidade, citando fontes essenciais.",
+      "image_plan": "Use a suitable image if needed"
+    }
+  ]
+}

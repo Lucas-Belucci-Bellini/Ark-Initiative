@@ -1086,3 +1086,11 @@ ARCA/
 | **ARCA Ω** | Planetary Resilience Infrastructure: preparação, resposta e recuperação em escala planetária. |
 
 A meta continua sendo a mesma: **não vencer a natureza, mas tornar a humanidade menos vulnerável à força da natureza**, inclusive quando o acesso exige capacidades especializadas e coordenação internacional.
+
+---
+
+## 29. Aplicação de referência implementada
+
+A primeira aplicação operacional do ARCA está em [`apps/arca-resilience`](apps/arca-resilience). Ela inclui o painel público com eventos GDACS e USGS, cache com proveniência, histórico agregado de busca e resgate, alertas preventivos explicáveis e um núcleo Rust/WebAssembly para validação local do risco apresentado e do frescor do cache.
+
+O aplicativo mantém uma separação explícita entre **sinal público**, **contexto histórico**, **recomendação informacional** e **decisão humana autorizada**. Instruções de execução, migrações e recompilação do núcleo Rust estão no [README da aplicação](apps/arca-resilience/README.md).

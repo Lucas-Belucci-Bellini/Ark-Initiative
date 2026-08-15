@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>O ambiente define a viabilidade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    .slide-container { width: 1280px; min-height: 720px; background: #E2E8F0; color: #0F172A; border: 1px solid #0F172A; }
+    .frame { min-height: 718px; padding: 42px 54px 0; display: flex; flex-direction: column; }
+    .topline { display: flex; justify-content: space-between; border-bottom: 1px dashed #0F172A; padding: 0 0 17px; font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.5px; }
+    .title-row { display: flex; justify-content: space-between; align-items: end; padding: 24px 0 0; }
+    h1 { max-width: 710px; font: 700 45px/1.04 'Roboto Slab', Georgia, serif; letter-spacing: -1.5px; text-transform: uppercase; }
+    .decision { width: 334px; min-height: 56px; background: #F59E0B; padding: 12px 14px 0; font: 500 13px/1.25 'Space Grotesk', sans-serif; }
+    .main { flex: 1; display: grid; grid-template-columns: 63% 37%; gap: 40px; align-items: center; }
+    .micro { font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.4px; }
+    .matrix-head { display: grid; grid-template-columns: 160px 1fr 1fr; border-top: 1px solid #0F172A; border-bottom: 1px solid #0F172A; padding: 10px 0; font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 1.1px; }
+    .matrix { margin: 10px 0 0; }
+    .metric { display: grid; grid-template-columns: 160px 1fr 1fr; min-height: 52px; border-bottom: 1px dashed #0F172A; align-items: center; }
+    .metric strong { font: 700 17px 'Roboto Slab', Georgia, serif; }
+    .metric span { font: 400 13px/1.2 'Space Grotesk', sans-serif; padding: 0 13px 0 0; }
+    .grade { display: flex; gap: 5px; }
+    .block { width: 25px; min-height: 15px; border: 1px solid #0F172A; }
+    .block.fill { background: #0F172A; } .block.warn { background: #F59E0B; }
+    .asset-panel { border: 1px solid #0F172A; min-height: 315px; padding: 18px 18px 0; }
+    .asset-panel h2 { margin: 14px 0 0; font: 700 25px/1.05 'Roboto Slab', Georgia, serif; text-transform: uppercase; }
+    .classes { margin: 22px 0 0; display: flex; flex-direction: column; gap: 10px; }
+    .asset { display: grid; grid-template-columns: 58px 1fr; gap: 12px; border-top: 1px dashed #0F172A; padding: 10px 0 0; }
+    .asset-code { min-height: 38px; background: #0F172A; color: #E2E8F0; display: flex; align-items: center; justify-content: center; font: 500 13px 'IBM Plex Mono', monospace; }
+    .asset.special .asset-code { background: #F59E0B; color: #0F172A; }
+    .asset h3 { font: 500 14px 'IBM Plex Mono', monospace; letter-spacing: 1px; }
+    .asset p { margin: 5px 0 0; font: 400 13px/1.22 'Space Grotesk', sans-serif; }
+    .states { border-top: 1px dashed #0F172A; padding: 16px 0 0; display: grid; grid-template-columns: 180px repeat(4, 1fr); gap: 12px; align-items: start; }
+    .states h2 { font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.3px; }
+    .state { min-height: 62px; border-top: 5px solid #0F172A; padding: 8px 0 0; font: 500 13px/1.2 'Space Grotesk', sans-serif; }
+    .state strong { display: block; font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 1px; }
+    .state.amber { border-top-color: #F59E0B; }
+  </style>
+</head>
+<body>
+  <div class="slide-container"><div class="frame">
+    <div class="topline"><span>03 / ENVELOPE OPERACIONAL</span><span>MISSÃO BASEADA EM EVIDÊNCIA</span></div>
+    <div class="title-row"><h1>O ambiente define a viabilidade</h1><p class="decision">NÃO É A MARCA DO ATIVO. É A COMBINAÇÃO DE AMBIENTE, CARGA, EQUIPE E SUSTENTAÇÃO.</p></div>
+    <div class="main">
+      <section>
+        <p class="micro">MATRIZ DE ENVELOPE / VERIFICAR ANTES DE RECOMENDAR</p>
+        <div class="matrix-head"><span>DIMENSÃO</span><span>EVIDÊNCIA EXIGIDA</span><span>CONDIÇÃO DA MISSÃO</span></div>
+        <div class="matrix">
+          <div class="metric"><strong>Terreno</strong><span>areia, lama, inclinação, pontes e recuperação</span><div class="grade"><i class="block fill"></i><i class="block fill"></i><i class="block fill"></i><i class="block"></i></div></div>
+          <div class="metric"><strong>Ambiente</strong><span>calor, poeira, gelo, fumaça, vento e visibilidade</span><div class="grade"><i class="block fill"></i><i class="block fill"></i><i class="block warn"></i><i class="block"></i></div></div>
+          <div class="metric"><strong>Carga</strong><span>massa, volume, centro de gravidade e água</span><div class="grade"><i class="block fill"></i><i class="block fill"></i><i class="block"></i><i class="block"></i></div></div>
+          <div class="metric"><strong>Autonomia</strong><span>combustível, bateria, reserva, retorno e resgate</span><div class="grade"><i class="block fill"></i><i class="block fill"></i><i class="block fill"></i><i class="block warn"></i></div></div>
+          <div class="metric"><strong>Sustentação</strong><span>filtros, peças, equipe, comunicação e manutenção</span><div class="grade"><i class="block fill"></i><i class="block fill"></i><i class="block fill"></i><i class="block"></i></div></div>
+        </div>
+      </section>
+      <aside class="asset-panel"><p class="micro">CLASSE DE CAPACIDADE</p><h2>Ativo adequado<br>ao cenário</h2><div class="classes">
+        <div class="asset"><span class="asset-code">A</span><div><h3>CIVIL CONVENCIONAL</h3><p>Acesso preservado; não presume operação em terreno extremo.</p></div></div>
+        <div class="asset"><span class="asset-code">B</span><div><h3>REFORÇADO / MODIFICADO</h3><p>Configuração documentada e limites comprovados.</p></div></div>
+        <div class="asset special"><span class="asset-code">C</span><div><h3>AUSTERE / ESPECIALIZADO</h3><p>Baixa infraestrutura, equipe qualificada e plano de recuperação.</p></div></div>
+      </div></aside>
+    </div>
+    <div class="states"><h2>ESTADO DE DECISÃO</h2><div class="state"><strong>VIÁVEL</strong>Margens e requisitos críticos confirmados.</div><div class="state amber"><strong>COM MITIGAÇÃO</strong>Exige ação concreta antes de partir.</div><div class="state"><strong>NÃO RECOMENDADO</strong>Risco incompatível com a finalidade.</div><div class="state amber"><strong>INDETERMINADO</strong>Dados insuficientes; coletar antes de decidir.</div></div>
+  </div></div>
+</body>
+</html>

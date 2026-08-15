@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1786751155530,
+      "tag": "0000_lethal_harry_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1786751498677,
+      "tag": "0001_goofy_tiger_shark",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1786751707210,
+      "tag": "0002_right_nightshade",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1786752042476,
+      "tag": "0003_great_ben_grimm",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1786753181418,
+      "tag": "0004_flippant_rictor",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1786753248795,
+      "tag": "0005_nosy_spiral",
+      "breakpoints": true
+    }
+  ]
+}

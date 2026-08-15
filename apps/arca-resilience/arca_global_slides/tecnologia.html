@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interface leve; núcleo Rust</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    .slide-container { width: 1280px; min-height: 720px; background: #E2E8F0; color: #0F172A; border: 1px solid #0F172A; }
+    .frame { min-height: 718px; padding: 42px 54px 0; display: flex; flex-direction: column; }
+    .topline { display: flex; justify-content: space-between; border-bottom: 1px dashed #0F172A; padding: 0 0 17px; font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.5px; }
+    .title-row { display: grid; grid-template-columns: 68% 32%; gap: 24px; align-items: end; padding: 26px 0 0; }
+    h1 { max-width: 770px; font: 700 45px/1.04 'Roboto Slab', Georgia, serif; text-transform: uppercase; letter-spacing: -1.5px; }
+    .thesis { background: #F59E0B; min-height: 67px; padding: 12px 14px 0; font: 500 14px/1.28 'Space Grotesk', sans-serif; }
+    .architecture { flex: 1; display: grid; grid-template-columns: 1fr 132px 1fr; gap: 0; align-items: center; padding: 25px 0 0; }
+    .plane { min-height: 306px; border: 1px solid #0F172A; padding: 21px 21px 0; display: flex; flex-direction: column; justify-content: space-between; }
+    .plane.rust { background: #0F172A; color: #E2E8F0; }
+    .plane .eyebrow { font: 500 11px 'IBM Plex Mono', monospace; letter-spacing: 1.4px; }
+    .plane h2 { margin: 17px 0 0; font: 700 28px/1.04 'Roboto Slab', Georgia, serif; text-transform: uppercase; }
+    .plane p { margin: 14px 0 0; max-width: 360px; font: 400 16px/1.3 'Space Grotesk', sans-serif; }
+    .plane ul { list-style: none; margin: 20px 0 0; display: grid; gap: 7px; }
+    .plane li { border-top: 1px dashed currentColor; padding: 7px 0 0; font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 0.7px; }
+    .plane.rust .eyebrow { color: #F59E0B; }
+    .bridge { min-height: 306px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+    .bridge-line { width: 132px; min-height: 1px; background: #0F172A; }
+    .bridge-dot { width: 43px; min-height: 43px; background: #F59E0B; border: 1px solid #0F172A; display: flex; align-items: center; justify-content: center; font: 500 14px 'IBM Plex Mono', monospace; }
+    .bridge-label { margin: 15px 0 0; writing-mode: vertical-rl; transform: rotate(180deg); font: 500 10px 'IBM Plex Mono', monospace; letter-spacing: 1.3px; }
+    .footer { border-top: 1px dashed #0F172A; padding: 17px 0 0; display: grid; grid-template-columns: 275px repeat(3, 1fr); gap: 20px; }
+    .footer h3 { font: 500 12px 'IBM Plex Mono', monospace; letter-spacing: 1.4px; }
+    .footer p { font: 400 13px/1.3 'Space Grotesk', sans-serif; }
+    .footer strong { display: block; margin: 0 0 5px; font: 700 13px 'Space Grotesk', sans-serif; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="frame">
+      <div class="topline"><span>10 / ARQUITETURA TECNOLÓGICA</span><span>LEVE NO NAVEGADOR · ROBUSTA NO EDGE</span></div>
+      <div class="title-row">
+        <h1>Interface leve; núcleo Rust</h1>
+        <p class="thesis">A LEVEZA NÃO EXIGE QUE TODA A EXPERIÊNCIA SEJA ESCRITA EM UMA SÓ LINGUAGEM. EXIGE USAR A LINGUAGEM CERTA EM CADA CAMADA.</p>
+      </div>
+      <div class="architecture">
+        <section class="plane">
+          <span class="eyebrow">CAMADA PÚBLICA / UNIVERSAL</span>
+          <div><h2>Site estático</h2><p>HTML, CSS e TypeScript entregues como arquivos leves: abrem diretamente em telefones, tablets e computadores, sem instalação adicional.</p></div>
+          <ul><li>RENDERIZAÇÃO IMEDIATA NO NAVEGADOR</li><li>RESPONSIVO E ACESSÍVEL</li><li>SEM BANCO OU SERVIDOR NO PRIMEIRO LANÇAMENTO</li></ul>
+        </section>
+        <div class="bridge" aria-label="Contrato entre interface e núcleo"><div class="bridge-line"></div><div class="bridge-dot">↔</div><div class="bridge-label">CONTRATO DE DADOS + SINCRONIZAÇÃO</div></div>
+        <section class="plane rust">
+          <span class="eyebrow">CAMADA EDGE / ESPECIALIZADA</span>
+          <div><h2>Núcleo Rust</h2><p>Componentes futuros para validação local, sincronização tolerante a atraso, processamento geoespacial e execução WebAssembly onde desempenho e segurança de memória importam.</p></div>
+          <ul><li>PORTÁVEL PARA NÓS EDGE</li><li>COMPILÁVEL PARA WEBSASSEMBLY</li><li>PREPARADO PARA OPERAÇÃO DEGRADADA</li></ul>
+        </section>
+      </div>
+      <div class="footer">
+        <h3>LIMITES DO PRIMEIRO LANÇAMENTO</h3>
+        <p><strong>Sem comando real</strong>O site explica a arquitetura; não autoriza missões, não controla ativos e não substitui decisões humanas.</p>
+        <p><strong>Sem dados sensíveis</strong>Não expõe credenciais, localização de equipes, rotas operacionais ou mapas de vulnerabilidade exploráveis.</p>
+        <p><strong>Pronto para evoluir</strong>A estrutura deixa espaço para PWA, cache offline e serviços Rust apenas quando houver governança e validação adequadas.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

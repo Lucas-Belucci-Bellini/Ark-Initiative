@@ -1,0 +1,47 @@
+# Project TODO
+
+- [x] Landing page pública do Projeto ARCA com visão global, protocolos offline e logística extrema.
+- [x] Apresentação de doze slides sobre a expansão global e militar-humanitária.
+- [x] Habilitar infraestrutura de backend, banco de dados e autenticação para o ARCA.
+- [x] Preservar e reconciliar a landing page pública após a atualização para aplicação completa.
+- [x] Inspecionar o banco compartilhado existente e definir acesso mínimo para dados do ARCA.
+- [x] Criar o esquema de dados do ARCA com consentimento, escopo de compartilhamento, trilha de auditoria e retenção limitada.
+- [x] Implementar autenticação e perfis de papel para usuário, operador e administrador.
+- [x] Implementar a primeira experiência autenticada de assistente ARCA, com histórico privado, limites de uso e supervisão humana.
+- [x] Integrar o modelo de IA no servidor, após validar o catálogo de modelos e a política de segurança.
+- [x] Criar testes Vitest para autorização, isolamento de dados e fluxos essenciais do agente.
+- [x] Validar a interface, o banco e os fluxos autenticados em desktop e mobile.
+- [x] Implementar política de retenção limitada para conversas e eventos de auditoria, com expiração e limpeza administrativa.
+- [x] Aplicar permissões administrativas reais para revisão de segurança, definição de papéis operacionais e limpeza de dados expirados.
+- [x] Adicionar uma fila explícita de revisão humana para mensagens sinalizadas, com registro de auditoria.
+- [x] Cobrir consentimento obrigatório, posse de conversa e restrição administrativa com testes Vitest.
+- [x] Validar a tela privada do Assistente ARCA em tela móvel antes de solicitar consentimento do usuário.
+- [x] Criar o acervo de evidências públicas com fonte, ambiente, resumo factual, lição operacional e status de curadoria.
+- [x] Inserir os primeiros casos oficiais sobre calor e resgate limitado, com URLs rastreáveis.
+- [x] Adaptar o Assistente ARCA para usar somente evidências publicadas e citar códigos de fonte pertinentes.
+- [x] Proibir relatos fabricados, uso de patrimônio pessoal ou pressão emocional no prompt e na curadoria.
+- [x] Validar a migração, os dados curados e a integração da resposta baseada em evidências.
+- [x] Criar o protocolo de alerta preventivo para intenção declarada de entrada em zona de desastre ou quarentena.
+- [x] Bloquear orientações que facilitem acesso não autorizado e oferecer alternativas seguras com fontes oficiais.
+- [x] Criar fila privada de revisão humana para sinais explícitos, específicos e iminentes, sem denúncia automática.
+- [x] Registrar regras de privacidade, auditoria e autorização antes de qualquer contato externo.
+- [x] Validar os limites do protocolo com testes e build de produção.
+- [x] Definir fontes e modelo de dados para zonas de risco, resgates históricos e estado operacional.
+- [x] Especificar protocolos de minimização de dados, controle de acesso, auditoria e supervisão humana em decisões de resgate.
+- [x] Projetar uma camada Rust/WebAssembly para validação local, funcionamento offline e interface operacional transparente.
+- [x] Documentar contratos de API, limites de decisão e próximos passos para implementação sem comunicação externa automática.
+- [x] Documentar que o ARCA não realiza denúncias secretas, vigilância entre usuários nem compartilhamento automático de conversas.
+- [x] Especificar o fluxo transparente de alerta preventivo, retenção limitada e revisão humana autorizada.
+- [x] Atualizar a área de segurança do assistente para explicar claramente os limites de escalonamento.
+- [x] Validar a redação de transparência e as salvaguardas do protocolo revisado.
+- [x] Definir o contrato de leitura pública para alertas globais e os limites de atualização do painel.
+- [x] Implementar um conector de somente leitura para eventos GDACS, com proveniência, atualização e tratamento de indisponibilidade.
+- [x] Criar tabelas isoladas para cache de risco público e histórico agregado de resgates, sem dados pessoais.
+- [x] Construir o painel operacional com mapa, lista de eventos, origem, horário e estado de conectividade.
+- [x] Adicionar um núcleo Rust/WebAssembly para validar eventos, risco agregado e pacotes offline no dispositivo.
+- [x] Exibir alertas preventivos explicáveis, com fontes e limites claros, para áreas classificadas como de risco.
+- [x] Cobrir o conector, as regras de alerta e o painel com testes, validação visual e build de produção.
+- [x] Integrar GDACS para alertas multirriscos globais e USGS para enriquecimento sísmico no mesmo contrato canônico.
+- [x] Expor no painel a validação Rust/WebAssembly do frescor do pacote público de risco.
+- [x] Adicionar testes automatizados do painel operacional para estado carregado, seleção de evento, estado vazio e alerta explicável.
+- [ ] Integrar a aplicação ARCA validada ao repositório GitHub Lucas-Belucci-Bellini/Ark-Initiative em diretório próprio, preservando o conteúdo existente.

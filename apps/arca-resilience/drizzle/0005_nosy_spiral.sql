@@ -1,0 +1,1 @@
+ALTER TABLE `arca_public_hazard_events` MODIFY COLUMN `alertLevel` enum('green','yellow','orange','red','unknown') NOT NULL DEFAULT 'unknown';
