@@ -5,6 +5,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import Assistant from "./pages/Assistant";
 import Home from "./pages/Home";
 import OperationalPanel from "./pages/OperationalPanel";
+import ReviewPanel from "./pages/ReviewPanel";
 import SafetyPolicy from "./pages/SafetyPolicy";
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/assistente"} component={Assistant} />
       <Route path={"/operacoes"} component={OperationalPanel} />
+      <Route path={"/revisao"} component={ReviewPanel} />
       <Route path={"/seguranca"} component={SafetyPolicy} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

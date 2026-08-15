@@ -44,4 +44,15 @@
 - [x] Integrar GDACS para alertas multirriscos globais e USGS para enriquecimento sísmico no mesmo contrato canônico.
 - [x] Expor no painel a validação Rust/WebAssembly do frescor do pacote público de risco.
 - [x] Adicionar testes automatizados do painel operacional para estado carregado, seleção de evento, estado vazio e alerta explicável.
-- [ ] Integrar a aplicação ARCA validada ao repositório GitHub Lucas-Belucci-Bellini/Ark-Initiative em diretório próprio, preservando o conteúdo existente.
+- [x] Integrar a aplicação ARCA validada ao repositório GitHub Lucas-Belucci-Bellini/Ark-Initiative em diretório próprio, preservando o conteúdo existente.
+- [x] Definir contratos de acesso mínimo, ownership e versionamento para dados compartilhados entre projetos.
+- [x] Documentar o fluxo do Assistente ARCA para alerta preventivo, triagem humana e comunicação externa somente autorizada.
+- [x] Planejar o lançamento por etapas em web responsiva, aplicativo desktop e aplicativo móvel offline-capable.
+- [x] Definir os contratos `arca_public_hazard_feed_v1`, `arca_rescue_aggregate_v1` e `arca_assessment_v1` para leitura mínima.
+- [x] Criar views SQL v1 com apenas dados públicos ou agregados e expor consultas seguras no backend.
+- [x] Implementar o manifesto PWA, service worker e pacote offline público com idade e validade visíveis.
+- [x] Criar o painel administrativo de revisão humana para sinais de risco pendentes, decisão, justificativa e auditoria.
+- [x] Cobrir views, PWA e revisão humana com testes, validação de tipos, build e checagem visual.
+- [x] Validar o cache da rota tRPC pública do painel operacional e seu fallback offline, sem armazenar dados autenticados.
+- [x] Cobrir os identificadores de contrato das views v1 e os arquivos PWA com testes automatizados.
+- [x] Simular falha de rede para validar que o worker recupera somente o pacote operacional público em cache.

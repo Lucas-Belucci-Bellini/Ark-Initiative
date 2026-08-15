@@ -1,4 +1,4 @@
-import { and, count, desc, eq, gt, gte, isNull, lt } from "drizzle-orm";
+import { and, count, desc, eq, gt, gte, isNull, lt, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
   arcaAuditEvents,
@@ -22,6 +22,11 @@ export const ARCA_AUDIT_RETENTION_DAYS = 365;
 export const ARCA_HOURLY_CHAT_LIMIT = 15;
 export const ARCA_SAFETY_SIGNAL_RETENTION_DAYS = 30;
 export const ARCA_PUBLIC_HAZARD_CACHE_MINUTES = 5;
+export const ARCA_V1_READ_VIEWS = Object.freeze({
+  publicHazardFeed: "arca_public_hazard_feed_v1",
+  rescueAggregate: "arca_rescue_aggregate_v1",
+  assessment: "arca_assessment_v1",
+});
 
 function retentionDate(days: number) {
   const date = new Date();
@@ -341,6 +346,7 @@ export async function getOpenArcaSafetySignals() {
     riskTier: arcaSafetySignals.riskTier,
     reasonCodes: arcaSafetySignals.reasonCodes,
     createdAt: arcaSafetySignals.createdAt,
+    expiresAt: arcaSafetySignals.expiresAt,
   }).from(arcaSafetySignals)
     .where(eq(arcaSafetySignals.status, "open"))
     .orderBy(desc(arcaSafetySignals.createdAt))
@@ -473,25 +479,29 @@ export async function getRecentPublicHazardEvents(limit = 80) {
   const database = await getDb();
   if (!database) throw new Error("Database unavailable");
 
-  return database.select({
-    source: arcaPublicHazardEvents.source,
-    sourceEventId: arcaPublicHazardEvents.sourceEventId,
-    title: arcaPublicHazardEvents.title,
-    hazardType: arcaPublicHazardEvents.hazardType,
-    alertLevel: arcaPublicHazardEvents.alertLevel,
-    magnitude: arcaPublicHazardEvents.magnitude,
-    depthKm: arcaPublicHazardEvents.depthKm,
-    latitude: arcaPublicHazardEvents.latitude,
-    longitude: arcaPublicHazardEvents.longitude,
-    countryOrPlace: arcaPublicHazardEvents.countryOrPlace,
-    observedAt: arcaPublicHazardEvents.observedAt,
-    sourceUpdatedAt: arcaPublicHazardEvents.sourceUpdatedAt,
-    sourceUrl: arcaPublicHazardEvents.sourceUrl,
-    ingestedAt: arcaPublicHazardEvents.ingestedAt,
-  }).from(arcaPublicHazardEvents)
-    .where(eq(arcaPublicHazardEvents.isCurrent, 1))
-    .orderBy(desc(arcaPublicHazardEvents.sourceUpdatedAt))
-    .limit(limit);
+  const [rows] = await database.execute(sql`
+    SELECT source, sourceEventId, title, hazardType, alertLevel, magnitude, depthKm,
+      latitude, longitude, countryOrPlace, observedAt, sourceUpdatedAt, sourceUrl, ingestedAt
+    FROM ${sql.raw(ARCA_V1_READ_VIEWS.publicHazardFeed)}
+    ORDER BY sourceUpdatedAt DESC
+    LIMIT ${Math.min(Math.max(limit, 1), 100)}
+  `);
+  return rows as unknown as Array<{
+    source: "gdacs" | "usgs";
+    sourceEventId: string;
+    title: string;
+    hazardType: string;
+    alertLevel: "green" | "yellow" | "orange" | "red" | "unknown";
+    magnitude: number | null;
+    depthKm: number | null;
+    latitude: number;
+    longitude: number;
+    countryOrPlace: string | null;
+    observedAt: Date;
+    sourceUpdatedAt: Date;
+    sourceUrl: string;
+    ingestedAt: Date;
+  }>;
 }
 
 export async function getPublicHazardCacheAge() {
@@ -509,16 +519,43 @@ export async function getPublishedRescueIncidentAggregates() {
   const database = await getDb();
   if (!database) throw new Error("Database unavailable");
 
-  return database.select({
-    aggregateKey: arcaRescueIncidentAggregates.aggregateKey,
-    sourceOrganization: arcaRescueIncidentAggregates.sourceOrganization,
-    sourceUrl: arcaRescueIncidentAggregates.sourceUrl,
-    scopeLabel: arcaRescueIncidentAggregates.scopeLabel,
-    incidentCategory: arcaRescueIncidentAggregates.incidentCategory,
-    incidentCount: arcaRescueIncidentAggregates.incidentCount,
-    coverageStart: arcaRescueIncidentAggregates.coverageStart,
-    coverageEnd: arcaRescueIncidentAggregates.coverageEnd,
-  }).from(arcaRescueIncidentAggregates)
-    .where(eq(arcaRescueIncidentAggregates.status, "published"))
-    .orderBy(desc(arcaRescueIncidentAggregates.incidentCount));
+  const [rows] = await database.execute(sql`
+    SELECT aggregateKey, sourceOrganization, sourceUrl, scopeLabel, incidentCategory,
+      incidentCount, coverageStart, coverageEnd, updatedAt
+    FROM ${sql.raw(ARCA_V1_READ_VIEWS.rescueAggregate)}
+    ORDER BY incidentCount DESC
+  `);
+  return rows as unknown as Array<{
+    aggregateKey: string;
+    sourceOrganization: string;
+    sourceUrl: string;
+    scopeLabel: string;
+    incidentCategory: string;
+    incidentCount: number;
+    coverageStart: Date;
+    coverageEnd: Date;
+    updatedAt: Date;
+  }>;
+}
+
+export async function getArcaAssessmentReceiptsV1() {
+  const database = await getDb();
+  if (!database) throw new Error("Database unavailable");
+
+  const [rows] = await database.execute(sql`
+    SELECT assessmentId, areaKey, riskTier, status, reasonCodes, createdAt, reviewedAt, expiresAt
+    FROM ${sql.raw(ARCA_V1_READ_VIEWS.assessment)}
+    ORDER BY reviewedAt DESC
+    LIMIT 20
+  `);
+  return rows as unknown as Array<{
+    assessmentId: number;
+    areaKey: string;
+    riskTier: "preventive" | "review_pending";
+    status: "resolved" | "no_external_action";
+    reasonCodes: unknown;
+    createdAt: Date;
+    reviewedAt: Date;
+    expiresAt: Date;
+  }>;
 }

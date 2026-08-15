@@ -239,6 +239,11 @@ export const appRouter = router({
       return { success: true } as const;
     }),
     safetySignals: adminProcedure.query(() => db.getOpenArcaSafetySignals()),
+    safetyBoard: adminProcedure.query(async () => ({
+      openSignals: await db.getOpenArcaSafetySignals(),
+      assessmentReceipts: await db.getArcaAssessmentReceiptsV1(),
+      externalDispatch: false as const,
+    })),
     resolveSafetySignal: adminProcedure.input(z.object({
       signalId: z.number().int().positive(),
       status: z.enum(["resolved", "no_external_action"]),
