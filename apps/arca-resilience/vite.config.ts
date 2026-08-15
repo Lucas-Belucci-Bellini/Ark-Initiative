@@ -151,6 +151,8 @@ function vitePluginManusDebugCollector(): Plugin {
 }
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
+const isTauriBuild = Boolean(process.env.TAURI_ENV_PLATFORM);
+const tauriDevHost = process.env.TAURI_DEV_HOST;
 
 export default defineConfig({
   plugins,
@@ -167,9 +169,14 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    target: isTauriBuild ? process.env.TAURI_ENV_PLATFORM === "windows" ? "chrome105" : "safari13" : undefined,
+    minify: isTauriBuild && process.env.TAURI_ENV_DEBUG ? false : "esbuild",
+    sourcemap: isTauriBuild && Boolean(process.env.TAURI_ENV_DEBUG),
   },
   server: {
-    host: true,
+    host: tauriDevHost || true,
+    port: isTauriBuild ? 3000 : undefined,
+    strictPort: isTauriBuild,
     allowedHosts: [
       ".manuspre.computer",
       ".manus.computer",
@@ -182,6 +189,9 @@ export default defineConfig({
     fs: {
       strict: true,
       deny: ["**/.*"],
+    },
+    watch: {
+      ignored: ["**/src-tauri/**"],
     },
   },
 });

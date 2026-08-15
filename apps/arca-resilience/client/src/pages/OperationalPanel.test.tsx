@@ -81,4 +81,13 @@ describe("OperationalPanel", () => {
 
     expect(screen.getByText(/Não foi possível carregar o painel agora/i)).toBeTruthy();
   });
+
+  it("informa quando o dispositivo inicia offline sem alterar os dados públicos exibidos", () => {
+    Object.defineProperty(navigator, "onLine", { configurable: true, value: false });
+    useOverview.mockReturnValue(loadedOverview());
+    render(<OperationalPanel />);
+
+    expect(screen.getByText("offline · pacote local")).toBeTruthy();
+    Object.defineProperty(navigator, "onLine", { configurable: true, value: true });
+  });
 });

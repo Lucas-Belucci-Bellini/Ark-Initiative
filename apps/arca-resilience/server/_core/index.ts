@@ -7,6 +7,7 @@ import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
+import { desktopPublicCors } from "./desktopCors";
 import { serveStatic, setupVite } from "./vite";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -39,6 +40,7 @@ async function startServer() {
   // tRPC API
   app.use(
     "/api/trpc",
+    desktopPublicCors,
     createExpressMiddleware({
       router: appRouter,
       createContext,

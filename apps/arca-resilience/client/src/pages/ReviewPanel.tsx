@@ -1,52 +1,74 @@
-/** Design: Atlas de Campo Planetário — revisão humana, rastreável e sem despacho externo. */
+/** Design: Atlas de Campo Planetário — revisão humana, curadoria rastreável e sem despacho externo. */
 import { useAuth } from "@/_core/hooks/useAuth";
 import { startLogin } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { AlertTriangle, ArrowLeft, CheckCircle2, ClipboardCheck, FileClock, LockKeyhole, ShieldCheck } from "lucide-react";
-import React, { useState } from "react";
+import { AlertTriangle, ArrowLeft, CheckCircle2, FileClock, LockKeyhole, PencilLine, Search, ShieldCheck } from "lucide-react";
+import React, { FormEvent, useMemo, useState } from "react";
 import "./ReviewPanel.css";
+import "./CurationPanel.css";
+import "./CurationFilters.css";
 
-function formatDate(value: Date | string) {
-  return new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
-}
+type EvidenceForm = { evidenceKey: string; title: string; environment: string; sourceOrganization: string; sourceUrl: string; sourcePublishedAt: string; factualSummary: string; operationalLesson: string; evidenceTier: "official" | "peer_reviewed" | "institutional"; status: "draft" | "published" | "archived" };
+type EvidenceStatusFilter = "all" | EvidenceForm["status"];
+type EvidenceTierFilter = "all" | EvidenceForm["evidenceTier"];
+type EvidenceSort = "updated_desc" | "updated_asc" | "title_asc" | "status_asc";
+const emptyEvidence: EvidenceForm = { evidenceKey: "", title: "", environment: "", sourceOrganization: "", sourceUrl: "", sourcePublishedAt: "", factualSummary: "", operationalLesson: "", evidenceTier: "official", status: "draft" };
 
-function reasonLabels(value: unknown) {
-  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string").join(" · ") : "classificação registrada";
-}
+function formatDate(value: Date | string) { return new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value)); }
+function reasonLabels(value: unknown) { return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string").join(" · ") : "classificação registrada"; }
 
 export default function ReviewPanel() {
   const { user, loading } = useAuth();
   const isAdmin = user?.role === "admin";
   const board = trpc.administration.safetyBoard.useQuery(undefined, { enabled: isAdmin });
+  const evidenceCatalog = trpc.administration.evidenceCatalog.useQuery(undefined, { enabled: isAdmin });
   const utils = trpc.useUtils();
-  const resolve = trpc.administration.resolveSafetySignal.useMutation({
-    onSuccess: () => utils.administration.safetyBoard.invalidate(),
-  });
+  const resolve = trpc.administration.resolveSafetySignal.useMutation({ onSuccess: () => utils.administration.safetyBoard.invalidate() });
+  const upsertEvidence = trpc.administration.upsertEvidence.useMutation({ onSuccess: () => { utils.administration.evidenceCatalog.invalidate(); setEvidenceForm(emptyEvidence); } });
   const [notes, setNotes] = useState<Record<number, string>>({});
+  const [evidenceForm, setEvidenceForm] = useState<EvidenceForm>(emptyEvidence);
+  const [evidenceQuery, setEvidenceQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<EvidenceStatusFilter>("all");
+  const [tierFilter, setTierFilter] = useState<EvidenceTierFilter>("all");
+  const [environmentFilter, setEnvironmentFilter] = useState("all");
+  const [sortBy, setSortBy] = useState<EvidenceSort>("updated_desc");
+  const evidenceItems = evidenceCatalog.data ?? [];
+  const environments = useMemo(() => Array.from(new Set(evidenceItems.map(item => item.environment))).sort((a, b) => a.localeCompare(b, "pt-BR")), [evidenceItems]);
+  const curatedEvidence = useMemo(() => {
+    const query = evidenceQuery.trim().toLocaleLowerCase("pt-BR");
+    const filtered = evidenceItems.filter(item => {
+      const searchable = `${item.title} ${item.evidenceKey} ${item.sourceOrganization} ${item.environment}`.toLocaleLowerCase("pt-BR");
+      return (!query || searchable.includes(query))
+        && (statusFilter === "all" || item.status === statusFilter)
+        && (tierFilter === "all" || item.evidenceTier === tierFilter)
+        && (environmentFilter === "all" || item.environment === environmentFilter);
+    });
+    return filtered.sort((a, b) => {
+      if (sortBy === "title_asc") return a.title.localeCompare(b.title, "pt-BR");
+      if (sortBy === "status_asc") return a.status.localeCompare(b.status, "pt-BR") || b.updatedAt.getTime() - a.updatedAt.getTime();
+      const delta = b.updatedAt.getTime() - a.updatedAt.getTime();
+      return sortBy === "updated_asc" ? -delta : delta;
+    });
+  }, [evidenceItems, evidenceQuery, statusFilter, tierFilter, environmentFilter, sortBy]);
 
   if (loading) return <div className="review-loading">Carregando sessão de revisão…</div>;
   if (!user) return <div className="review-loading"><div><LockKeyhole size={26} /><h1>Revisão protegida</h1><p>Entre com uma conta autorizada para abrir o painel.</p><button onClick={() => startLogin()}>Entrar para revisar</button></div></div>;
-  if (!isAdmin) return <div className="review-loading"><div><ShieldCheck size={26} /><h1>Acesso restrito</h1><p>Somente administradores ARCA podem revisar sinais de risco. Nenhuma ação externa é realizada por esta tela.</p><a href="/assistente">Voltar ao Assistente ARCA</a></div></div>;
-  if (board.isLoading) return <div className="review-loading">Carregando sinais privados…</div>;
-  if (board.isError || !board.data) return <div className="review-loading">Não foi possível carregar a fila de revisão agora.</div>;
+  if (!isAdmin) return <div className="review-loading"><div><ShieldCheck size={26} /><h1>Acesso restrito</h1><p>Somente administradores ARCA podem revisar sinais de risco e curar evidências. Nenhuma ação externa é realizada por esta tela.</p><a href="/assistente">Voltar ao Assistente ARCA</a></div></div>;
+  if (board.isLoading || evidenceCatalog.isLoading) return <div className="review-loading">Carregando revisão e acervo privado…</div>;
+  if (board.isError || evidenceCatalog.isError || !board.data || !evidenceCatalog.data) return <div className="review-loading">Não foi possível carregar o painel de revisão agora.</div>;
 
-  const resolveSignal = (signalId: number, status: "resolved" | "no_external_action") => {
-    const note = notes[signalId]?.trim() ?? "";
-    if (note.length < 10) return;
-    resolve.mutate({ signalId, status, resolutionNote: note });
-  };
+  const resolveSignal = (signalId: number, status: "resolved" | "no_external_action") => { const note = notes[signalId]?.trim() ?? ""; if (note.length >= 10) resolve.mutate({ signalId, status, resolutionNote: note }); };
+  const submitEvidence = (event: FormEvent) => { event.preventDefault(); upsertEvidence.mutate({ ...evidenceForm, sourcePublishedAt: evidenceForm.sourcePublishedAt ? new Date(`${evidenceForm.sourcePublishedAt}T12:00:00Z`) : null }); };
+  const editEvidence = (item: typeof evidenceItems[number]) => setEvidenceForm({ evidenceKey: item.evidenceKey, title: item.title, environment: item.environment, sourceOrganization: item.sourceOrganization, sourceUrl: item.sourceUrl, sourcePublishedAt: item.sourcePublishedAt ? new Date(item.sourcePublishedAt).toISOString().slice(0, 10) : "", factualSummary: item.factualSummary, operationalLesson: item.operationalLesson, evidenceTier: item.evidenceTier, status: item.status });
 
   return <div className="review-page">
     <header className="review-header"><a href="/operacoes"><ArrowLeft size={15} /> Painel operacional</a><div><span>ARCA / REVISÃO HUMANA</span><strong>Decisão registrada, não despacho</strong></div><a href="/seguranca">Política de segurança</a></header>
     <main className="review-main">
       <section className="review-intro"><div><p className="eyebrow"><span /> CONTROLE HUMANO / ACESSO ADMINISTRATIVO</p><h1>Revisar um sinal não é comunicar uma autoridade.</h1><p>Esta fila apresenta somente classificação, área, tempo e motivo. Conteúdo de conversa, identidade da pessoa e dados de localização não são exibidos aqui.</p></div><div className="review-guardrail"><LockKeyhole size={20} /><div><b>Canal externo: desativado</b><span>{board.data.externalDispatch ? "Indisponível" : "Nenhuma integração externa configurada"}</span></div></div></section>
-
-      <section className="review-board"><div className="review-rail"><p>FILA PENDENTE</p><strong>{board.data.openSignals.length}</strong><span>sinais requerem registro humano</span><div className="rail-rule" /><small>Retenção limitada · motivo obrigatório · recibo auditável</small></div><div className="review-list">
-        {board.data.openSignals.length === 0 ? <div className="review-empty"><CheckCircle2 size={24} /><h2>Nenhum sinal aberto</h2><p>A fila está vazia. Quando um sinal explícito e iminente requerer revisão, ele aparecerá sem comunicação externa automática.</p></div> : board.data.openSignals.map(signal => <article key={signal.id} className="review-item"><div className="review-item-meta"><span className={signal.riskTier === "review_pending" ? "tier-pending" : "tier-preventive"}>{signal.riskTier === "review_pending" ? "REVISÃO PENDENTE" : "PREVENTIVO"}</span><small>{formatDate(signal.createdAt)} · expira em {formatDate(signal.expiresAt)}</small></div><h2>{signal.areaKey.replaceAll("_", " ")}</h2><p className="reason-line"><AlertTriangle size={15} /> {reasonLabels(signal.reasonCodes)}</p><label htmlFor={`note-${signal.id}`}>Justificativa do revisor</label><textarea id={`note-${signal.id}`} value={notes[signal.id] ?? ""} onChange={event => setNotes(current => ({ ...current, [signal.id]: event.target.value }))} placeholder="Registre fatos verificados, limites e decisão. Mínimo de 10 caracteres." maxLength={2000} /><div className="review-actions"><button className="secondary-review" onClick={() => resolveSignal(signal.id, "no_external_action")} disabled={(notes[signal.id]?.trim().length ?? 0) < 10 || resolve.isPending}>Encerrar sem ação externa</button><button className="primary-review" onClick={() => resolveSignal(signal.id, "resolved")} disabled={(notes[signal.id]?.trim().length ?? 0) < 10 || resolve.isPending}>Registrar revisão interna</button></div></article>)}</div></section>
-
+      <section className="review-board"><div className="review-rail"><p>FILA PENDENTE</p><strong>{board.data.openSignals.length}</strong><span>sinais requerem registro humano</span><div className="rail-rule" /><small>Retenção limitada · motivo obrigatório · recibo auditável</small></div><div className="review-list">{board.data.openSignals.length === 0 ? <div className="review-empty"><CheckCircle2 size={24} /><h2>Nenhum sinal aberto</h2><p>A fila está vazia. Quando um sinal explícito e iminente requerer revisão, ele aparecerá sem comunicação externa automática.</p></div> : board.data.openSignals.map(signal => <article key={signal.id} className="review-item"><div className="review-item-meta"><span className={signal.riskTier === "review_pending" ? "tier-pending" : "tier-preventive"}>{signal.riskTier === "review_pending" ? "REVISÃO PENDENTE" : "PREVENTIVO"}</span><small>{formatDate(signal.createdAt)} · expira em {formatDate(signal.expiresAt)}</small></div><h2>{signal.areaKey.replaceAll("_", " ")}</h2><p className="reason-line"><AlertTriangle size={15} /> {reasonLabels(signal.reasonCodes)}</p><label htmlFor={`note-${signal.id}`}>Justificativa do revisor</label><textarea id={`note-${signal.id}`} value={notes[signal.id] ?? ""} onChange={event => setNotes(current => ({ ...current, [signal.id]: event.target.value }))} placeholder="Registre fatos verificados, limites e decisão. Mínimo de 10 caracteres." maxLength={2000} /><div className="review-actions"><button className="secondary-review" onClick={() => resolveSignal(signal.id, "no_external_action")} disabled={(notes[signal.id]?.trim().length ?? 0) < 10 || resolve.isPending}>Encerrar sem ação externa</button><button className="primary-review" onClick={() => resolveSignal(signal.id, "resolved")} disabled={(notes[signal.id]?.trim().length ?? 0) < 10 || resolve.isPending}>Registrar revisão interna</button></div></article>)}</div></section>
       <section className="receipt-section"><div><p className="eyebrow"><span /> RECIBOS DE AVALIAÇÃO / VIEW V1</p><h2>Histórico agregado de decisões concluídas</h2></div><div className="receipt-list">{board.data.assessmentReceipts.length === 0 ? <p>Nenhum recibo de avaliação publicado ainda.</p> : board.data.assessmentReceipts.map(receipt => <div key={receipt.assessmentId}><FileClock size={16} /><span>{receipt.areaKey.replaceAll("_", " ")}</span><b>{receipt.status === "no_external_action" ? "sem ação externa" : "revisado"}</b><small>{receipt.reviewedAt ? formatDate(receipt.reviewedAt) : "sem revisão"}</small></div>)}</div></section>
-
-      <section className="review-tutorial"><p className="eyebrow"><span /> GUIA DE USO</p><ol><li><b>01</b><span>Leia os motivos e confirme se o sinal tem contexto suficiente.</span></li><li><b>02</b><span>Registre uma justificativa factual, sem inferir identidade ou intenção além do dado disponível.</span></li><li><b>03</b><span>Encerre sem ação externa ou registre a revisão interna; qualquer canal institucional exige fluxo separado e autorizado.</span></li></ol></section>
+      <section className="curation-section"><div className="curation-heading"><p className="eyebrow"><span /> ACERVO DE EVIDÊNCIAS / CURADORIA</p><h2>Publicar apenas o que pode ser rastreado.</h2><p>O Assistente ARCA só consulta evidências publicadas. Salve rascunhos até confirmar origem, resumo factual e lição operacional.</p></div><div className="curation-filters" aria-label="Filtros do acervo"><label className="curation-search"><Search size={15} /><span>Buscar</span><input value={evidenceQuery} onChange={event => setEvidenceQuery(event.target.value)} placeholder="Título, chave, fonte ou ambiente" /></label><label>Status<select value={statusFilter} onChange={event => setStatusFilter(event.target.value as EvidenceStatusFilter)}><option value="all">todos</option><option value="published">publicados</option><option value="draft">rascunhos</option><option value="archived">arquivados</option></select></label><label>Nível<select value={tierFilter} onChange={event => setTierFilter(event.target.value as EvidenceTierFilter)}><option value="all">todos</option><option value="official">oficial</option><option value="peer_reviewed">revisado por pares</option><option value="institutional">institucional</option></select></label><label>Ambiente<select value={environmentFilter} onChange={event => setEnvironmentFilter(event.target.value)}><option value="all">todos</option>{environments.map(environment => <option key={environment} value={environment}>{environment}</option>)}</select></label><label>Ordenar<select value={sortBy} onChange={event => setSortBy(event.target.value as EvidenceSort)}><option value="updated_desc">atualização recente</option><option value="updated_asc">atualização antiga</option><option value="title_asc">título A–Z</option><option value="status_asc">status</option></select></label><p><b>{curatedEvidence.length}</b> de {evidenceItems.length} evidências</p></div><div className="curation-grid"><form className="curation-form" onSubmit={submitEvidence}><div className="curation-form-title"><h3>{evidenceForm.evidenceKey ? "Editar evidência" : "Nova evidência"}</h3><button type="button" onClick={() => setEvidenceForm(emptyEvidence)}>Limpar</button></div><label>Chave da evidência<input required minLength={4} maxLength={80} value={evidenceForm.evidenceKey} onChange={event => setEvidenceForm({ ...evidenceForm, evidenceKey: event.target.value })} placeholder="ex.: iaea_chornobyl_faq" /></label><label>Título<input required minLength={8} maxLength={240} value={evidenceForm.title} onChange={event => setEvidenceForm({ ...evidenceForm, title: event.target.value })} /></label><div className="curation-split"><label>Ambiente<input required minLength={3} maxLength={120} value={evidenceForm.environment} onChange={event => setEvidenceForm({ ...evidenceForm, environment: event.target.value })} /></label><label>Nível<select value={evidenceForm.evidenceTier} onChange={event => setEvidenceForm({ ...evidenceForm, evidenceTier: event.target.value as EvidenceForm["evidenceTier"] })}><option value="official">oficial</option><option value="peer_reviewed">revisado por pares</option><option value="institutional">institucional</option></select></label></div><label>Organização-fonte<input required minLength={3} maxLength={180} value={evidenceForm.sourceOrganization} onChange={event => setEvidenceForm({ ...evidenceForm, sourceOrganization: event.target.value })} /></label><label>URL primária<input required type="url" maxLength={1000} value={evidenceForm.sourceUrl} onChange={event => setEvidenceForm({ ...evidenceForm, sourceUrl: event.target.value })} /></label><label>Data de publicação<input type="date" value={evidenceForm.sourcePublishedAt} onChange={event => setEvidenceForm({ ...evidenceForm, sourcePublishedAt: event.target.value })} /></label><label>Resumo factual<textarea required minLength={30} maxLength={4000} value={evidenceForm.factualSummary} onChange={event => setEvidenceForm({ ...evidenceForm, factualSummary: event.target.value })} /></label><label>Lição operacional<textarea required minLength={20} maxLength={2000} value={evidenceForm.operationalLesson} onChange={event => setEvidenceForm({ ...evidenceForm, operationalLesson: event.target.value })} /></label><div className="curation-submit"><label>Status<select value={evidenceForm.status} onChange={event => setEvidenceForm({ ...evidenceForm, status: event.target.value as EvidenceForm["status"] })}><option value="draft">rascunho</option><option value="published">publicar</option><option value="archived">arquivar</option></select></label><button className="primary-review" type="submit" disabled={upsertEvidence.isPending}>{upsertEvidence.isPending ? "Salvando…" : "Salvar curadoria"}</button></div>{upsertEvidence.isError && <p className="curation-error">{upsertEvidence.error.message}</p>}</form><div className="curation-list" aria-label="Evidências cadastradas">{curatedEvidence.length === 0 ? <p>Nenhuma evidência corresponde aos filtros atuais.</p> : curatedEvidence.map(item => <article key={item.evidenceKey}><div><span className={`evidence-status ${item.status}`}>{item.status}</span><span className="evidence-tier">{item.evidenceTier}</span></div><h3>{item.title}</h3><p>{item.sourceOrganization} · {item.environment}</p><small>Atualizado {formatDate(item.updatedAt)}</small><button onClick={() => editEvidence(item)}><PencilLine size={14} /> Editar</button></article>)}</div></div></section>
+      <section className="review-tutorial"><p className="eyebrow"><span /> GUIA DE USO</p><ol><li><b>01</b><span>Leia os motivos e confirme se o sinal tem contexto suficiente.</span></li><li><b>02</b><span>Registre uma justificativa factual, sem inferir identidade ou intenção além do dado disponível.</span></li><li><b>03</b><span>Na curadoria, publique somente fontes verificáveis e mantenha rascunhos enquanto houver incerteza.</span></li></ol></section>
     </main>
   </div>;
 }

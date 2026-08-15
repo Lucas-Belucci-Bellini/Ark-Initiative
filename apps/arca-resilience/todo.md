@@ -56,3 +56,14 @@
 - [x] Validar o cache da rota tRPC pública do painel operacional e seu fallback offline, sem armazenar dados autenticados.
 - [x] Cobrir os identificadores de contrato das views v1 e os arquivos PWA com testes automatizados.
 - [x] Simular falha de rede para validar que o worker recupera somente o pacote operacional público em cache.
+- [x] Definir a versão, o escopo e as notas da primeira release oficial do ARCA.
+- [x] Publicar e verificar uma release GitHub com tag no repositório Ark-Initiative.
+- [x] Definir e configurar a base Tauri para o aplicativo desktop do ARCA, com instruções de desenvolvimento e empacotamento.
+- [x] Criar no painel administrativo um fluxo de curadoria de evidências com validação, estados de publicação e proveniência obrigatória.
+- [x] Exibir em tempo real no painel operacional se o dispositivo está online, offline ou recuperando conexão, sem armazenar dados privados.
+- [x] Cobrir Tauri, curadoria e conectividade com testes, validação de tipos, build e checagem visual.
+- [x] Concluir uma compilação Linux do binário Tauri em ambiente com memória suficiente antes de anexar instaladores à release 0.2.0.
+- [ ] Adicionar filtros e ordenação de curadoria por texto, status, nível de evidência, ambiente e atualização.
+- [ ] Restringir CORS do cliente desktop e preservar o fluxo OAuth com origem explícita e validação de origem permitida.
+- [ ] Gerar pacotes Linux `.deb` e AppImage, calcular checksums SHA-256 e validar os artefatos antes da publicação.
+- [ ] Publicar e verificar a release GitHub 0.2.0 com notas, instaladores e checksums.

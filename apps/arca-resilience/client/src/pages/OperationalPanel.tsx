@@ -5,10 +5,12 @@
 import OperationalMap, { type MapHazardEvent } from "@/components/OperationalMap";
 import { alertLevelCode, loadArcaRiskCore } from "@/lib/arcaRiskCore";
 import { trpc } from "@/lib/trpc";
-import { AlertTriangle, ArrowLeft, ArrowUpRight, Bot, CircleDot, Database, Loader2, MapPinned, RefreshCw, ShieldCheck, Wifi } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ArrowUpRight, Bot, CircleDot, Database, Loader2, MapPinned, Radio, RefreshCw, ShieldCheck, Wifi, WifiOff } from "lucide-react";
+import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 import React from "react";
 import { useEffect, useMemo, useState } from "react";
 import "./OperationalPanel.css";
+import "./OperationalPanelNetwork.css";
 
 type RiskTier = "monitorar" | "atenção" | "elevado" | "crítico";
 
@@ -34,6 +36,7 @@ export default function OperationalPanel() {
   const [wasmReady, setWasmReady] = useState(false);
   const [wasmPacketFresh, setWasmPacketFresh] = useState<boolean | null>(null);
   const [wasmTierById, setWasmTierById] = useState<Record<string, RiskTier>>({});
+  const networkStatus = useNetworkStatus();
 
   useEffect(() => {
     let alive = true;
@@ -104,6 +107,7 @@ export default function OperationalPanel() {
             <div><Wifi size={17} /><span>janela de cache</span><strong>{overview.data.cacheWindowMinutes} min</strong></div>
             <div><Database size={17} /><span>último pacote</span><strong>{overview.data.lastCacheAt ? formatDate(overview.data.lastCacheAt) : "sem cache"}</strong></div>
             <div><Bot size={17} /><span>núcleo local</span><strong>{wasmReady ? wasmPacketFresh ? "Rust/Wasm · pacote válido" : "Rust/Wasm · pacote vencido" : "validação JS disponível"}</strong></div>
+            <div className={`network-status network-${networkStatus}`}>{networkStatus === "offline" ? <WifiOff size={17} /> : networkStatus === "recovering" ? <Radio size={17} /> : <Wifi size={17} />}<span>conectividade</span><strong>{networkStatus === "offline" ? "offline · pacote local" : networkStatus === "recovering" ? "recuperando conexão" : "conectado"}</strong></div>
           </div>
         </section>
 

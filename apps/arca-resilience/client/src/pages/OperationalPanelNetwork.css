@@ -1,0 +1,4 @@
+.panel-status-strip{grid-template-columns:repeat(4,1fr)}
+.network-status.network-offline svg,.network-status.network-offline strong{color:#b55a3b}
+.network-status.network-recovering svg,.network-status.network-recovering strong{color:#b28124}
+@media(max-width:640px){.panel-status-strip{grid-template-columns:1fr}}

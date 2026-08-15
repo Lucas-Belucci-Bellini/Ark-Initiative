@@ -385,6 +385,29 @@ export async function getPublishedArcaEvidence() {
     .limit(8);
 }
 
+export async function getArcaEvidenceForCuration() {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+
+  return db.select({
+    id: arcaEvidenceCases.id,
+    evidenceKey: arcaEvidenceCases.evidenceKey,
+    title: arcaEvidenceCases.title,
+    environment: arcaEvidenceCases.environment,
+    sourceOrganization: arcaEvidenceCases.sourceOrganization,
+    sourceUrl: arcaEvidenceCases.sourceUrl,
+    sourcePublishedAt: arcaEvidenceCases.sourcePublishedAt,
+    factualSummary: arcaEvidenceCases.factualSummary,
+    operationalLesson: arcaEvidenceCases.operationalLesson,
+    evidenceTier: arcaEvidenceCases.evidenceTier,
+    status: arcaEvidenceCases.status,
+    reviewedAt: arcaEvidenceCases.reviewedAt,
+    updatedAt: arcaEvidenceCases.updatedAt,
+  }).from(arcaEvidenceCases)
+    .orderBy(desc(arcaEvidenceCases.updatedAt))
+    .limit(50);
+}
+
 export type EvidenceInput = {
   evidenceKey: string;
   title: string;

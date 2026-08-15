@@ -10,6 +10,9 @@ import { registerArcaServiceWorker } from "./lib/pwa";
 import "./index.css";
 
 const queryClient = new QueryClient();
+const configuredApiOrigin = import.meta.env.VITE_ARCA_API_ORIGIN?.trim().replace(/\/$/, "");
+const trpcEndpoint = configuredApiOrigin ? `${configuredApiOrigin}/api/trpc` : "/api/trpc";
+const isCrossOriginDesktopApi = Boolean(configuredApiOrigin && configuredApiOrigin !== window.location.origin);
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
@@ -17,7 +20,7 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
 
   const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
 
-  if (!isUnauthorized) return;
+  if (!isUnauthorized || isCrossOriginDesktopApi) return;
 
   startLogin();
 };
@@ -41,7 +44,7 @@ queryClient.getMutationCache().subscribe(event => {
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      url: "/api/trpc",
+      url: trpcEndpoint,
       transformer: superjson,
       headers() {
         // Preview auto-login fallback: when the browser blocks iframe cookies
@@ -66,7 +69,10 @@ const trpcClient = trpc.createClient({
       fetch(input, init) {
         return globalThis.fetch(input, {
           ...(init ?? {}),
-          credentials: "include",
+          // A Tauri build may query a remote public API. Never forward the
+          // website's OAuth cookie across origins; desktop OAuth requires a
+          // separately registered native callback and remains fail-closed.
+          credentials: isCrossOriginDesktopApi ? "omit" : "include",
         });
       },
     }),
